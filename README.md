@@ -1,81 +1,55 @@
-# 🚀 Permacast Auto-Boost Bot
+# 🤖 Permacast Auto-Boost Bot
 
-A powerful automation script for the **Permacast** platform on BNB Smart Chain. This bot automates the `boostContent` on-chain interaction to help you earn points efficiently across multiple wallets.
+link projek : https://admin.permacast.app
 
-Built with performance and reliability in mind, following the **Airdrop Bot & Web3 Automation** standards.
+[![Network](https://img.shields.io/badge/Network-BSC-yellow)](https://bscscan.com)
+[![Language](https://img.shields.io/badge/Language-JavaScript-F7DF1E)](https://nodejs.org)
+[![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
----
-
-## ✨ Features
-
-- **Multi-Wallet Support**: Processes multiple accounts from `private_keys.txt`.
-- **Auto-Curator Activation**: Automatically detects if a wallet is not yet a curator and activates it.
-- **Smart Boosting**: Fetches unique content IDs from global history to ensure you boost active content.
-- **Anti-Sybil & Rate Limiting**: Random delays and specific intervals between actions to mimic human behavior.
-- **Premium Terminal UI**: Beautiful, color-coded logs using `chalk` for real-time monitoring.
-- **Automatic Report Generation**: Saves session summaries to `boost_report.txt`.
+Permacast Auto-Boost Bot adalah skrip otomatisasi untuk platform **Permacast** di BNB Smart Chain. Bot ini mengotomatiskan interaksi on-chain `boostContent` untuk membantu Anda mendapatkan poin secara efisien di banyak wallet.
 
 ---
 
-## 🛠 Prerequisites
+## ✨ Fitur
 
-- **Node.js** (v18 or higher)
-- **BNB (BSC)** for gas fees (minimal amount needed per boost).
+- **Multi-Wallet Support**: Mendukung banyak akun dari `private_keys.txt`.
+- **Auto-Curator Activation**: Otomatis mendeteksi dan mengaktifkan status curator jika belum aktif.
+- **Smart Boosting**: Mengambil content ID unik dari history publik.
+- **WIB Timestamps**: Log terminal menggunakan zona waktu Asia/Jakarta.
+- **Anti-Ban Architecture**: Jeda acak dan penanganan error per-akun.
+- **Premium UI**: Tampilan terminal yang bersih dengan kredit Noya-xen.
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Setup
 
-### 1. Installation
+1. `git clone https://github.com/Noya-xen/Permacast.git`
+2. `cd Permacast`
+3. `npm install`
+4. Copy `private_keys_template.txt` ke `private_keys.txt` dan isi private key Anda.
+5. `npm start`
 
-Clone the repository and install dependencies:
+---
 
+## ⚙️ Konfigurasi
+
+Pastikan Anda memiliki saldo BNB yang cukup di setiap wallet untuk biaya gas transaksi on-chain.
+
+---
+
+## 📡 Deploy VPS
+
+Gunakan PM2 untuk menjaga bot tetap berjalan 24/7:
 ```bash
-git clone https://github.com/Noya-xen/Permacast.git
-cd Permacast
-npm install
+npm install -g pm2
+pm2 start boost.js --name "permacast-bot"
+pm2 save && pm2 startup
 ```
-
-### 2. Configuration
-
-Create a file named `private_keys.txt` in the root directory and add your private keys, one per line:
-
-```text
-0xabc...123
-0xdef...456
-```
-
-> [!IMPORTANT]
-> Never share your `private_keys.txt` or upload it to any public repository!
-
-### 3. Usage
-
-Run the script:
-
-```bash
-npm start
-```
-
-The script will:
-1. Connect to the most stable BSC RPC.
-2. Login to Permacast API for each wallet.
-3. Check balance and curator status.
-4. Execute boosts for unique content.
-5. Repeat every 24 hours automatically.
 
 ---
 
-## 📊 Logging & Reports
+## ⚠️ Disclaimer
 
-- **Console**: High-quality color-coded logs.
-- **File**: `boost_report.txt` contains a detailed summary of every session.
+Script ini untuk keperluan edukasi. Gunakan dengan tanggung jawab sendiri. Pengembang tidak bertanggung jawab atas kerugian atau sanksi dari platform.
 
----
-
-## 🛡 Disclaimer
-
-This tool is for educational purposes only. Use it at your own risk. The developer is not responsible for any losses or platform bans.
-
----
-
-**Developed with ❤️ by [Noya-xen](https://github.com/Noya-xen)**
+> **Built by:** Noya-xen | [@xinomixo](https://x.com/xinomixo)

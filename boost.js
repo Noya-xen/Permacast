@@ -92,10 +92,16 @@ const CURATOR_ABI = [
 //  Helpers
 // ═══════════════════════════════════════════════════════════
 
+function wibNow() {
+    return new Date().toLocaleString('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        day: '2-digit', month: '2-digit', year: '2-digit',
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+    });
+}
+
 function formatTimestamp() {
-    const d = new Date();
-    const pad = (n) => String(n).padStart(2, "0");
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    return wibNow();
 }
 
 function sleep(ms) {
@@ -110,13 +116,48 @@ function writeReport(text) {
     fs.appendFileSync(CONFIG.LOG_FILE, text + "\n", "utf8");
 }
 
-const INFO = (p, m) => console.log(`${chalk.cyan(`[${formatTimestamp()}]`)} ${chalk.blueBright(`[${p}]`)} ${m}`);
-const OK = (p, m) => console.log(`${chalk.cyan(`[${formatTimestamp()}]`)} ${chalk.greenBright(`[${p}]`)} ${m}`);
-const WARN = (p, m) => console.log(`${chalk.cyan(`[${formatTimestamp()}]`)} ${chalk.yellowBright(`[${p}]`)} ${m}`);
-const ERR = (p, m) => console.log(`${chalk.cyan(`[${formatTimestamp()}]`)} ${chalk.redBright(`[${p}]`)} ${m}`);
+function printBanner() {
+    console.log(chalk.magenta(`
+ ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ 
+▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌      ▐░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
+▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█░▌    ▐░█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌ ▀▀▀▀█░█▀▀▀▀ 
+▐░▌          ▐░▌          ▐░▌       ▐░▌▐░█░░▌  ▐░░█░▌▐░█  ▄▄▄▄  █░▌▐░█          ▐░█  ▄▄▄▄  █░▌     ▐░█▌      
+▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌▐░█░▐░▌▐░▌░█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█▀▀▀▀▀▀▀█░▌     ▐░█▌      
+▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░█░ ▐░▌ ░█░▌▐░█░░░░░░░█░▌▐░░░░░░░░░░░▌▐░█░░░░░░░█░▌     ▐░█▌      
+ ▀▀▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀█░█▀▀ ▐░█░  ▐░  ░█░▌▐░█▀▀▀▀▀▀▀█░▌ ▀▀▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌     ▐░█▌      
+          ▐░▌▐░▌          ▐░▌     ▐░▌  ▐░█░      ░█░▌▐░█       ▐░█          ▐░█  ▐░█       ▐░█▌     ▐░█▌      
+ ▄▄▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█      ▐░█ ▐░█░      ░█░▌▐░█       ▐░█ ▄▄▄▄▄▄▄▄▄█░▌▐░█       ▐░█▌     ▐░█▌      
+▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░█       ▐░█▐░█░      ░█░▌▐░█       ▐░█▐░░░░░░░░░░░▌▐░█       ▐░█▌     ▐░█▌      
+ ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀        ▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀       ▀       
+    `));
+    console.log(chalk.gray('  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'));
+    console.log(chalk.white('   🚀 Permacast v1.0.0 | Chain: BSC (56) | Auto-Boost System'));
+    console.log(chalk.gray('  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'));
+}
 
-function updateDashboard(content) {
-    logUpdate(content);
+function printCredit() {
+    const c = chalk.magenta;
+    console.log(c('  *==========================================*'));
+    console.log(c('    > Built by: Noya-xen (Github)'));
+    console.log(c('    > Follow me on X : @xinomixo'));
+    console.log(c('  *==========================================*\n'));
+}
+
+const INFO = (p, m) => console.log(`${chalk.cyan(`[${wibNow()}]`)} ${chalk.blueBright(`[${p}]`)} ${m}`);
+const OK = (p, m) => console.log(`${chalk.cyan(`[${wibNow()}]`)} ${chalk.greenBright(`[${p}]`)} ${m}`);
+const WARN = (p, m) => console.log(`${chalk.cyan(`[${wibNow()}]`)} ${chalk.yellowBright(`[${p}]`)} ${m}`);
+const ERR = (p, m) => console.log(`${chalk.cyan(`[${wibNow()}]`)} ${chalk.redBright(`[${p}]`)} ${m}`);
+
+function printSummaryReport(results) {
+    const success = results.filter(r => r.boosts > 0).length;
+    const failed = results.filter(r => r.error).length;
+    
+    console.log(chalk.white('\n  ━━━━━━━━━━━━━━━━ SUMMARY ━━━━━━━━━━━━━━━━'));
+    console.log(chalk.green(`  ✅ Total Wallet Sukses: ${success}`));
+    console.log(chalk.red(`  ❌ Total Wallet Gagal : ${failed}`));
+    console.log(chalk.blue(`  📊 Total Akun         : ${results.length}`));
+    console.log(chalk.yellow(`  ⏱  Waktu Selesai     : ${wibNow()}`));
+    console.log(chalk.white('  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'));
 }
 
 async function createProvider() {
@@ -562,6 +603,7 @@ async function runCycle(cycleNum) {
     writeReport(summaryLines.join("\n"));
 
     INFO("MAIN", `Report saved to ${CONFIG.LOG_FILE}`);
+    printSummaryReport(results);
     return { totalBoosts, totalSkipped, totalFailed };
 }
 
@@ -574,6 +616,10 @@ async function main() {
 
     while (true) {
         try {
+            if (cycle === 1) {
+                printBanner();
+                printCredit();
+            }
             await runCycle(cycle);
         } catch (e) {
             ERR("LOOP", `Session #${cycle} error: ${e.message}`);
